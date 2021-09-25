@@ -25,9 +25,8 @@ Route::group([
   
   Route::post('/auth/login', [App\Http\Controllers\AuthController::class, 'login']);
   Route::post('/auth/register', [App\Http\Controllers\UserController::class, 'register']);
-  Route::get('/auth/users', [App\Http\Controllers\UserController::class, 'getUsers']);
   Route::get('/auth/post', [App\Http\Controllers\PostController::class, 'index']);
-
+  
   
 });
 
@@ -40,6 +39,9 @@ Route::group([
   Route::post('/auth/refresh', [App\Http\Controllers\AuthController::class, 'refresh']);
   Route::post('/auth/logout', [App\Http\Controllers\AuthController::class, 'logout']);
   Route::get('/auth/user', [App\Http\Controllers\AuthController::class, 'user']);
+
+  /**** USERS ****/
+  Route::get('/auth/users', [App\Http\Controllers\UserController::class, 'getUsers']);
   
   /**** AUTH - POST ****/
   Route::post('/auth/post', [App\Http\Controllers\PostController::class, 'store']);

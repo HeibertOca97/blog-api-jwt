@@ -6,6 +6,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Log;
+use Tymon\JWTAuth\Facades\JWTAuth;
 
 class UserController extends Controller
 {
@@ -48,7 +49,7 @@ class UserController extends Controller
 
   public function getUsers(){
     return response()->json([
-        'users' => User::orderBy('id', 'DESC')->get()
+        'users' => User::orderBy('id', 'ASC')->where('id', "!=", JWTAuth::user()->id)->get()
       ], 200); 
   }
   
