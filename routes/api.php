@@ -27,7 +27,6 @@ Route::group([
   Route::post('/auth/register', [App\Http\Controllers\UserController::class, 'register']);
   Route::get('/auth/post', [App\Http\Controllers\PostController::class, 'index']);
   
-  
 });
 
 Route::group([

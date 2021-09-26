@@ -48,8 +48,20 @@ class UserController extends Controller
   }
 
   public function getUsers(){
+    $users = User::orderBy('id', 'ASC')->where('id', "!=", JWTAuth::user()->id)->get();
+    $users->map(function($user){
+          return [
+              "id" => $user->id,
+              "username" => $user->username,
+              "email" => $user->email,
+              "created_at" => $user->created_at, 
+              "updated_at" => $user->updated_at,
+              "posts" => $user->posts->count()
+            ];
+      });
+      
     return response()->json([
-        'users' => User::orderBy('id', 'ASC')->where('id', "!=", JWTAuth::user()->id)->get()
+        'users' => $users
       ], 200); 
   }
   

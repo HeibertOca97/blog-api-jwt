@@ -19,6 +19,7 @@ class User extends Authenticatable implements JWTSubject
      * @var string[]
      */
     protected $fillable = [
+        'username',
         'email',
         'password'
     ];
@@ -60,6 +61,14 @@ class User extends Authenticatable implements JWTSubject
     public function getJWTCustomClaims()
     {
         return [];
+    }
+
+    public function image(){
+        return $this->morphOne('App\Models\Image', 'imageable');
+    }
+
+    public function posts(){
+        return $this->hasMany('App\Models\Post');
     }
 
 }
