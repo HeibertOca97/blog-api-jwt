@@ -25,8 +25,6 @@ Route::group([
   
   Route::post('/auth/login', [App\Http\Controllers\AuthController::class, 'login']);
   Route::post('/auth/register', [App\Http\Controllers\UserController::class, 'register']);
-  Route::get('/auth/post', [App\Http\Controllers\PostController::class, 'index']);
-  
 });
 
 Route::group([
@@ -43,6 +41,7 @@ Route::group([
   Route::get('/auth/users', [App\Http\Controllers\UserController::class, 'getUsers']);
   
   /**** AUTH - POST ****/
+  Route::get('/auth/post', [App\Http\Controllers\PostController::class, 'index']);
   Route::post('/auth/post', [App\Http\Controllers\PostController::class, 'store']);
   Route::get('/auth/post/{id}', [App\Http\Controllers\PostController::class, 'show']);
   Route::put('/auth/post/{id}', [App\Http\Controllers\PostController::class, 'update']);

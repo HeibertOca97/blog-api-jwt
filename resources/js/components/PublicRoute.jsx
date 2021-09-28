@@ -1,10 +1,10 @@
 import React from 'react';
 import {Route, Redirect} from 'react-router-dom';
 
-function PublicRoute({props, el, session, redirect}) {
+function PublicRoute({path, el, session, redirect}) {
 
     return (
-        <Route {...props}>
+        <Route path={path}>
             {session ? <Redirect to={redirect} /> : el}
         </Route>
     )

@@ -7,6 +7,7 @@ use App\Models\Post;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Storage;
 
 class PostController extends Controller
 {
@@ -17,7 +18,21 @@ class PostController extends Controller
      */
     public function index()
     {
-      return response()->json(Post::orderBy('id', 'DESC')->get(), 200);
+        $post = Post::where("user_id", "=", Auth::user()->id)->orderBy('id', 'DESC')->get();
+        $post->map(function($item){
+            return [
+                "id" => $item->id,
+                "title" => $item->title,
+                "description" => $item->description,
+                "image" => $item->image,
+                "created_at" => $item->created_at,
+                "updated_at" => $item->updated_at
+            ];
+        });
+        return response()->json([
+          "success" => true,
+          "post" => $post
+        ], 200);
     }
 
     /**
@@ -28,13 +43,21 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
+        // return response()->json([
+        //     "success" =>true,
+        //     "message" =>"Nuevo post creado",
+        //     "post" => $request->all()
+        //   ], 200);
+
+        //   return;
       
       $data = $request->only("title", "description", "image");
       
       $validator = Validator::make($data, [
         "title" => "required|max:80",
         "description" => "required|max:255",
-        "image" => "mimes:jpeg,jpg,png|required|max:3072"
+         "image" => "required|image|max:3072"
+        // "image" => "required|mimes:jpeg,jpg,png|max:3072"
       ]);
       
       if($validator->fails()){
@@ -45,17 +68,20 @@ class PostController extends Controller
         ], 422);
       }
       
-      $url = $request->file("image")->store("public/avatars");
-      $url_img = Str::replaceFirst("public", "storage", $url);
-      $data["image"] = $url_img;
+      $imagenes = $request->file("image")->store("public/imagenes");
+      $url_img = Storage::url($imagenes);
+      $url_img = Str::replaceFirst("public", "storage", $imagenes);
+    //   $data["image"] = $url_img;
       $data["user_id"] = Auth::user()->id;
       
       try {
-        Post::create($data);
+        $post = Post::create($data);
+        $post->image()->create(["url" => $url_img]);
         
         return response()->json([
             "success" =>true,
-            "message" =>"Nuevo post creado"
+            "message" =>"Nuevo post creado",
+            "post" => $post
           ], 200);
       } catch (\Throwable $th) {
         return response()->json([

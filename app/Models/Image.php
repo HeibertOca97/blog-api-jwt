@@ -11,6 +11,7 @@ class Image extends Model
 
     protected $guarded = [];
     // public $timestamps = false;
+    // protected $fillable = ['url'];
 
     public function imageable(){
         return $this->morphTo();

@@ -10,7 +10,7 @@ function NavbarApp(){
       <div className="collapse navbar-collapse" id="navbarNavAltMarkup">
         <div className="navbar-nav">
           <Link to="/dashboard" className="nav-link active">Dashboard</Link>
-          <Link to="/articles" className="nav-link active">Articles</Link>
+          <Link to="/post" className="nav-link active">Post</Link>
         </div>
       </div>
     </nav>

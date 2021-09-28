@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from 'react';
+import {BrowserRouter as Router} from 'react-router-dom';
 import {getToken, initAxiosInterceptors} from './Helpers/auth-helpers';
-import {RouterView} from './Page/RouterView';
+import {RouterView} from './components/RouterView';
 
 initAxiosInterceptors();
 
@@ -41,7 +42,9 @@ function App(){
   }, [setSession, setUserAuth, getToken]);
 
   return (
-        <RouterView session={session} setUserAuth={setUserAuth} setSession={setSession} userAuth={userAuth}/>
+      <Router>
+          <RouterView session={session} setUserAuth={setUserAuth} setSession={setSession} userAuth={userAuth}/>
+      </Router>
   );
 }
 
